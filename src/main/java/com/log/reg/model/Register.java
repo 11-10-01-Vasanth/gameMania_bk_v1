@@ -12,7 +12,7 @@ public class Register
 	@Id
 	@GeneratedValue
 	private int regId;
-	private String userName;
+	private String username;
 	private String email;
 	private String password;
 	public int getRegId() {
@@ -21,11 +21,11 @@ public class Register
 	public void setRegId(int regId) {
 		this.regId = regId;
 	}
-	public String getUserName() {
-		return userName;
+	public String getUsername() {
+		return username;
 	}
-	public void setUserName(String userName) {
-		this.userName = userName;
+	public void setUsername(String username) {
+		this.username = username;
 	}
 	public String getEmail() {
 		return email;
