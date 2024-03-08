@@ -16,6 +16,13 @@ public class AvailableGames {
 	private String discount;
 	private String price;
 	private String discountprice;
+	private String imgUrl;
+	public String getImgUrl() {
+		return imgUrl;
+	}
+	public void setImgUrl(String imgUrl) {
+		this.imgUrl = imgUrl;
+	}
 	public int getAgid() {
 		return agid;
 	}

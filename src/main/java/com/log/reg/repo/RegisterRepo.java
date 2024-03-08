@@ -15,5 +15,4 @@ public interface RegisterRepo extends JpaRepository<Register,Integer> {
 	boolean existsByUsername(String username);
 
 
-
 }

@@ -13,34 +13,52 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.log.reg.model.AvailableGames;
-import com.log.reg.repo.AvgameRepo;
+import com.log.reg.model.ImageStore;
+import com.log.reg.repo.ImageRepo;
+import com.log.reg.service.AvgameService;
 
 
 @RestController
 @RequestMapping("/avgames")
 public class AgController {
 
+	
 	@Autowired
-	private AvgameRepo avRepo;
+    private ImageRepo imageRepo;
+	
+	@Autowired 
+	private AvgameService avService;
 	
 	@PostMapping("/setgamedata")
 	public ResponseEntity<?> setgamedata(@RequestBody AvailableGames avgames) 
 	{
-		AvailableGames savedEntity = avRepo.save(avgames);
+		AvailableGames av = avService.setgamedata(avgames);
+		return ResponseEntity.status(HttpStatus.OK).body(av);
+	}
+	
+	@GetMapping("/getAllGameData")
+	public ResponseEntity<?> getAllGameData()
+	{
+		List<AvailableGames> savedEntity = avService.getAllGameData();
 		return ResponseEntity.status(HttpStatus.OK).body(savedEntity);
 	}
 	
-	@GetMapping("/getgamedata/{id}")
-	public ResponseEntity<?> getgamedata(@PathVariable int id)
-	{
-		AvailableGames savedEntity = avRepo.findById(id).get();
-		return ResponseEntity.status(HttpStatus.OK).body(savedEntity);
-	}
 	
-	@GetMapping("/getgamedata")
-	public ResponseEntity<?> getgamedata(@RequestBody AvailableGames avgames)
-	{
-		List<AvailableGames> savedEntity = avRepo.findAll();
-		return ResponseEntity.status(HttpStatus.OK).body(savedEntity);
-	}
+	 @GetMapping("/getImage")
+	    public ResponseEntity<?> getAllImages() {
+	        List<ImageStore> images = imageRepo.findAll();
+	        return ResponseEntity.ok(images);
+	    }
+
+	    @PostMapping("/setImage")
+	    public ResponseEntity<?> createImage(@RequestBody ImageStore image) {
+	        ImageStore savedImage = imageRepo.save(image);
+	        return ResponseEntity.status(HttpStatus.CREATED).body(savedImage);
+	    }
+	    
+	    @PostMapping("/setImage/{id}")
+	    public ResponseEntity<ImageStore> setImage(@PathVariable int id) {
+	        ImageStore savedImage = imageRepo.findById(id);
+	        return ResponseEntity.status(HttpStatus.CREATED).body(savedImage);
+	    }
 }
