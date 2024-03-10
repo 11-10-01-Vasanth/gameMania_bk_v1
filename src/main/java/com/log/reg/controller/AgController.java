@@ -3,6 +3,8 @@ package com.log.reg.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.log.reg.model.AvailableGames;
 import com.log.reg.model.ImageStore;
+import com.log.reg.repo.AvgameRepo;
 import com.log.reg.repo.ImageRepo;
 import com.log.reg.service.AvgameService;
 
@@ -24,7 +27,7 @@ public class AgController {
 
 	
 	@Autowired
-    private ImageRepo imageRepo;
+    private AvgameRepo avRepo;
 	
 	@Autowired 
 	private AvgameService avService;
@@ -43,22 +46,21 @@ public class AgController {
 		return ResponseEntity.status(HttpStatus.OK).body(savedEntity);
 	}
 	
+	@GetMapping("/list/{page}/{size}")
+	public ResponseEntity<?> getPostsPage(@PathVariable int page, @PathVariable int size){
+		PageRequest.of(2, 3);
+		
+//		List<Post> posts = postRepo.findAll(PageRequest.of(page, size)).toList();
+		List<AvailableGames> posts = avRepo.findAll(
+				PageRequest.of(
+						page, size, 
+						Sort.by("agid").ascending()
+						)).toList();
+		return ResponseEntity
+				.status(HttpStatus.OK)
+				.body(posts);
+		
+	}
 	
-	 @GetMapping("/getImage")
-	    public ResponseEntity<?> getAllImages() {
-	        List<ImageStore> images = imageRepo.findAll();
-	        return ResponseEntity.ok(images);
-	    }
-
-	    @PostMapping("/setImage")
-	    public ResponseEntity<?> createImage(@RequestBody ImageStore image) {
-	        ImageStore savedImage = imageRepo.save(image);
-	        return ResponseEntity.status(HttpStatus.CREATED).body(savedImage);
-	    }
-	    
-	    @PostMapping("/setImage/{id}")
-	    public ResponseEntity<ImageStore> setImage(@PathVariable int id) {
-	        ImageStore savedImage = imageRepo.findById(id);
-	        return ResponseEntity.status(HttpStatus.CREATED).body(savedImage);
-	    }
+	
 }
