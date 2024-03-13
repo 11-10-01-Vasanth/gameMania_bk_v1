@@ -16,9 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.log.reg.model.AvailableGames;
-import com.log.reg.model.ImageStore;
 import com.log.reg.repo.AvgameRepo;
-import com.log.reg.repo.ImageRepo;
 import com.log.reg.service.AvgameService;
 
 

@@ -49,7 +49,7 @@ public class FileController {
 
 			UUID uuid = UUID.randomUUID();
 //			String uploadsLocation = env.getProperty("resource.uploads");
-			String uploadsLocation = "D:\\SpringWorkspace\\LoginRegister\\src\\main\\resources\\uploads";
+			String uploadsLocation = "D:\\SpringWorkspace\\LoginRegister\\src\\main\\resources\\uploads\\";
 			String imgUrl = uuid + uploadedFile.getOriginalFilename();
 			String fileLocation = uploadsLocation + imgUrl;
 			Path path = Paths.get(fileLocation);
@@ -57,7 +57,7 @@ public class FileController {
 			
 			AvailableGames avgame = new AvailableGames();
 			avgame.setImgUrl(imgUrl);
-			avRepo.saveAndFlush(avgame);
+			avRepo.save(avgame);
 
 //			File file = new File(fileLocation);
 			return ResponseEntity.status(HttpStatus.OK).body(imgUrl);
