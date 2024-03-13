@@ -27,5 +27,17 @@ public class AvgameServiceImpl implements AvgameService{
 		List<AvailableGames> savedEntity = avRepo.findAll();
 		return savedEntity;
 	}
+
+	@Override
+	public AvailableGames updateProduct(int agid, String gametitle, String discount, String price, String discountprice, String imgUrl) {
+		AvailableGames avgame = avRepo.findById(agid).get();
+		avgame.setDiscount(discountprice);
+		avgame.setDiscountprice(discountprice);
+		avgame.setGametitle(gametitle);
+		avgame.setImgUrl(imgUrl);
+		avgame.setPrice(price);
+		AvailableGames updateEntity = avRepo.saveAndFlush(avgame);
+		return updateEntity;
+	}
 	
 }

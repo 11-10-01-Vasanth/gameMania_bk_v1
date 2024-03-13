@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.log.reg.model.AvailableGames;
@@ -43,6 +44,13 @@ public class AgController {
 	public ResponseEntity<?> getAllGameData()
 	{
 		List<AvailableGames> savedEntity = avService.getAllGameData();
+		return ResponseEntity.status(HttpStatus.OK).body(savedEntity);
+	}
+	
+	@GetMapping("/update")
+	public ResponseEntity<?> updateProduct(@RequestParam int agid, @RequestParam String gametitle, @RequestParam String discount, @RequestParam String price, @RequestParam String discountprice, @RequestParam String imgUrl)
+	{
+		AvailableGames savedEntity = avService.updateProduct(agid, gametitle, discount, price, discountprice, imgUrl);
 		return ResponseEntity.status(HttpStatus.OK).body(savedEntity);
 	}
 	
