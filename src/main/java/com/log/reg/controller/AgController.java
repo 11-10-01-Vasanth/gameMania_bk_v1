@@ -63,10 +63,25 @@ public class AgController {
 						Sort.by("agid").ascending()
 						)).toList();
 		return ResponseEntity
-				.status(HttpStatus.OK)
+				.status(HttpStatus.OK) 
 				.body(posts);
 		
 	}
 	
+//	@GetMapping("/l/{p}/{s}")
+//	public ResponseEntity<?> getPage(@PathVariable int page, @PathVariable int size){
+//		PageRequest.of(2, 3);
+//		
+//		List<Post> posts = postRepo.findAll(PageRequest.of(page, size)).toList();
+//		List<AvailableGames> posts = avRepo.findAll(
+//				PageRequest.of(
+//						page, size, 
+//						Sort.by("agid").ascending()
+//						)).toList();
+//		return ResponseEntity
+//				.status(HttpStatus.OK) 
+//				.body(posts);
+//		
+//	}
 	
 }

@@ -37,6 +37,7 @@ public class FileController {
 	
 	@Autowired
 	private AvgameRepo avRepo;
+	
 
 	@PostMapping("/upload")
 	public ResponseEntity<?> uploadFile(@RequestParam("file") MultipartFile uploadedFile) {
@@ -57,10 +58,41 @@ public class FileController {
 			
 			AvailableGames avgame = new AvailableGames();
 			avgame.setImgUrl(imgUrl);
-			avRepo.save(avgame);
+//			avRepo.save(avgame);
 
 //			File file = new File(fileLocation);
 			return ResponseEntity.status(HttpStatus.OK).body(imgUrl);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.status(HttpStatus.CREATED).body(e.getMessage());
+
+		}
+	}
+	
+	@PostMapping("/uploadimg")
+	public ResponseEntity<?> uploadImage(@RequestParam("file") MultipartFile uploadedFile) {
+		if (uploadedFile.isEmpty()) {
+			return new ResponseEntity<>("Please select a file!", HttpStatus.OK);
+		}
+		try {
+
+			byte[] bytes = uploadedFile.getBytes();
+
+			UUID uuid = UUID.randomUUID();
+//			String uploadsLocation = env.getProperty("resource.uploads");
+			String uploadsLocation = "D:\\SpringWorkspace\\LoginRegister\\src\\main\\resources\\uploads\\";
+			String imageUrl = uuid + uploadedFile.getOriginalFilename();
+			String fileLocation = uploadsLocation + imageUrl;
+			Path path = Paths.get(fileLocation);
+			Files.write(path, bytes);
+			
+			AvailableGames avgame = new AvailableGames();
+			avgame.setImgUrl(imageUrl);
+//			avRepo.save(avgame);
+
+//			File file = new File(fileLocation);
+			return ResponseEntity.status(HttpStatus.OK).body(imageUrl);
 
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.log.reg.dto.RegisterDto;
 import com.log.reg.model.Register;
 import com.log.reg.repo.RegisterRepo;
+import com.log.reg.service.RegisterService;
 //import com.log.reg.service.RegisterService;
 
 @RestController
@@ -23,27 +25,21 @@ public class RegisterController
 {
 	
 	@Autowired
-	private RegisterRepo registerRepo;
+	private RegisterService registerService;
+	
 	
 	@PostMapping("/set")
-	public ResponseEntity<?> setRegister(@RequestBody Register register)
+	public ResponseEntity<Boolean> setRegister(@RequestBody Register register)
 	{
-		if(registerRepo.existsByUsername(register.getUsername()))
-		{
-			return ResponseEntity.status(HttpStatus.FOUND).body("User Already Exists");
-		}
-		else
-		{
-			Register savedEntity = registerRepo.saveAndFlush(register);
-			return ResponseEntity.status(HttpStatus.OK).body(savedEntity);
-		}
+		boolean success = registerService.setRegister(register);
+		return ResponseEntity.status(HttpStatus.OK).body(success);
 	}
 	
-	@GetMapping("/check")
-	public ResponseEntity<?> RegisterId(@RequestParam String username,@RequestParam String password)
+	@PostMapping("/login")
+	public ResponseEntity<Boolean> checkData(@RequestBody RegisterDto registerDto)
 	{
-		List<Register> register = registerRepo.findByUsernameAndPassword(username,password);
-		return ResponseEntity.status(HttpStatus.OK).body(register);
+		boolean success = registerService.checkData(registerDto.getUsername(), registerDto.getPassword());
+		return ResponseEntity.status(HttpStatus.OK).body(success);
 	}
 	
 	

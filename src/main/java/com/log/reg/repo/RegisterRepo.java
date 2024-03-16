@@ -10,7 +10,7 @@ import com.log.reg.model.Register;
 @Repository
 public interface RegisterRepo extends JpaRepository<Register,Integer> {
 
-	List<Register> findByUsernameAndPassword(String username, String password);
+	Register findByUsername(String username);
 
 	boolean existsByUsername(String username);
 
